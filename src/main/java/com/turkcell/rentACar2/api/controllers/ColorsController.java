@@ -1,6 +1,8 @@
 package com.turkcell.rentACar2.api.controllers;
 
 import com.turkcell.rentACar2.business.abstracts.ColorService;
+import com.turkcell.rentACar2.business.dtos.ColorGetDto;
+import com.turkcell.rentACar2.business.dtos.ColorListDto;
 import com.turkcell.rentACar2.entities.concretes.Color;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,13 +19,18 @@ public class ColorsController {
     public ColorsController(ColorService colorService) {
         this.colorService = colorService;
     }
-    @GetMapping("/api/colors")
-    public List<Color> getAll() {
+    @GetMapping("/getAll")
+    public List<ColorListDto> getAll() {
         return this.colorService.getAll();
     }
 
     @PostMapping("/add")
     public void add(Color color) {
         this.colorService.add(color);
+   }
+
+   @GetMapping("/getById")
+   public ColorGetDto getById(int id) {
+        return this.colorService.getById(id);
    }
 }

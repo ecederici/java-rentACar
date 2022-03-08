@@ -1,6 +1,8 @@
 package com.turkcell.rentACar2.api.controllers;
 
 import com.turkcell.rentACar2.business.abstracts.BrandService;
+import com.turkcell.rentACar2.business.dtos.BrandGetDto;
+import com.turkcell.rentACar2.business.dtos.BrandListDto;
 import com.turkcell.rentACar2.entities.concretes.Brand;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,13 +20,18 @@ public class BrandsController {
         this.brandService = brandService;
     }
 
-    @GetMapping("/getall")
-    public List<Brand> getAll() {
+    @GetMapping("/getAll")
+    public List<BrandListDto> getAll() {
         return this.brandService.getAll();
     }
 
     @PostMapping("/add")
     public void add(Brand brand) {
         this.brandService.add(brand);
+    }
+
+    @GetMapping("/getById")
+    public BrandGetDto getById(int id) {
+        return this.brandService.getById(id);
     }
 }
