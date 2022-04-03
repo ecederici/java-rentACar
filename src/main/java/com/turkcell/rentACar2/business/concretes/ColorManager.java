@@ -63,7 +63,7 @@ public class ColorManager implements ColorService {
 
         Color color = this.colorDao.getById(id);
 
-        checkIfColorNameExist(color.getName());
+        checkIfColorNameExist(updateColorRequest.getName());
 
         color.setName(updateColorRequest.getName());
 

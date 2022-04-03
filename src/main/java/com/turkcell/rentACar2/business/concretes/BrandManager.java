@@ -64,7 +64,7 @@ public class BrandManager implements BrandService {
 
        Brand brand = this.brandDao.getById(id);
 
-       checkIfBrandNameExist(brand.getName());
+       checkIfBrandNameExist(updateBrandRequest.getName());
 
        brand.setName(updateBrandRequest.getName());
        this.brandDao.save(brand);
