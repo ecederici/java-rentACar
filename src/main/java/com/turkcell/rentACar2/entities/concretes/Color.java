@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -17,6 +18,9 @@ public class Color {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "color_name")
-    private String colorName;
+    @Column(name = "name")
+    private String name;
+
+    @OneToMany(mappedBy = "color", cascade = CascadeType.ALL)
+    private List<Car> cars;
 }

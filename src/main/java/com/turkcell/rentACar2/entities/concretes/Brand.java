@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -17,7 +18,10 @@ public class Brand {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "brand_name")
-    private String brandName;
+    @Column(name = "name")
+    private String name;
+
+    @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL)
+    private List<Car> cars;
 
 }
