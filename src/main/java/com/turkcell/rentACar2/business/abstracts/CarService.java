@@ -32,4 +32,6 @@ public interface CarService {
     DataResult<List<CarListDto>> findByColorId(int colorId);
 
     void populateCurrentDistance(int id, int currentDistance);
+
+    void checkIfIdExists(int id);
 }

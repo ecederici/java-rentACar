@@ -13,6 +13,8 @@ public interface CarDao extends JpaRepository<Car, Integer> {
     List<Car> findAllByModelYear(int modelYear);
 
     List<Car> findByColorId(int colorId);
+
+    boolean existsById(int id);
 }
 
 

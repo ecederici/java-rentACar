@@ -142,6 +142,13 @@ public class CarManager implements CarService {
     }
 
     @Override
+    public void checkIfIdExists(int id) {
+        if (!this.carDao.existsById(id)) {
+            throw new BusinessException(BusinessMessages.CAR_DOES_NOT_EXISTS + id);
+        }
+    }
+
+    @Override
     public DataResult<List<CarListDto>> findCarsByModelYear(int modelYear) {
         checkIfModelYearValid(modelYear);
 
@@ -153,11 +160,6 @@ public class CarManager implements CarService {
         return new SuccessDataResult<>(response,BusinessMessages.CARS_LIST_BY_MODEL_YEAR + modelYear);
     }
 
-    private void checkIfIdExists(int id) {
-        if (!this.carDao.existsById(id)) {
-            throw new BusinessException(BusinessMessages.CAR_DOES_NOT_EXISTS + id);
-        }
-    }
 
     private void populateRentalCarFields(Car car, UpdateCarRequest updateCarRequest) {
 
