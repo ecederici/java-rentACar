@@ -1,5 +1,6 @@
 package com.turkcell.rentACar2.business.requests.CarRequest;
 
+import com.turkcell.rentACar2.business.constants.messages.BusinessMessages;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import javax.validation.constraints.Size;
 public class UpdateCarRequest {
 
     @NotNull
-    @Min(value = 1,message = "Daily price cannot be less than 1")
+    @Min(value = 1, message = BusinessMessages.INVALID_DAILY_PRICE)
     private double dailyPrice;
 
     @NotNull
@@ -24,5 +25,4 @@ public class UpdateCarRequest {
     @NotNull
     @Min(0)
     private int currentDistance;
-
 }
