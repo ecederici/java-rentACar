@@ -13,6 +13,7 @@ public class RentalCarListDto {
 
     private LocalDate rentDate;
     private LocalDate returnDate;
+    private LocalDate executionDate;
     private int carId;
     private int customerId;
     private String fromCity;

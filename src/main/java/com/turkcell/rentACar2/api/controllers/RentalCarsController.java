@@ -34,7 +34,7 @@ public class RentalCarsController {
         return this.rentalCarService.getById(id);
     }
 
-    @PostMapping("/add")
+   // @PostMapping("/add")
     public Result add(@RequestBody @Valid RentalCarModel rentalCarModel) {
         return this.rentalCarService.add(rentalCarModel);
     }
