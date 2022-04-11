@@ -5,6 +5,7 @@ import com.turkcell.rentACar2.core.utilities.results.ErrorResult;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -41,5 +42,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         });
 
         return ResponseEntity.badRequest().body(new ErrorDataResult<>(errors, "Validation errors"));
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException httpMessageNotReadableException, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        String errorMessage = "Format error";
+        return ResponseEntity.badRequest().body(new ErrorDataResult<>(errorMessage, "Http message not readable error"));
     }
 }
