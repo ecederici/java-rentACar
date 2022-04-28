@@ -17,6 +17,7 @@ import com.turkcell.rentACar2.entities.concretes.AdditionalService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
@@ -57,6 +58,7 @@ public class AdditionalServiceManager implements AdditionalServiceService {
 
         AdditionalService additionalService = this.modelMapperService.forRequest().map(createAdditionalServiceRequest, AdditionalService.class);
 
+        additionalService.setName(createAdditionalServiceRequest.getName().toUpperCase(Locale.ROOT));
         this.additionalServiceDao.save(additionalService);
 
         return new SuccessResult(BusinessMessages.DATA_ADDED);
@@ -85,8 +87,13 @@ public class AdditionalServiceManager implements AdditionalServiceService {
        return new SuccessResult(BusinessMessages.DATA_DELETED + id);
     }
 
+    @Override
+    public AdditionalService findById(int id) {
+        return this.additionalServiceDao.getById(id);
+    }
+
     private void populateAdditionalServiceFields(AdditionalService additionalService, UpdateAdditionalServiceRequest updateAdditionalServiceRequest) {
-        additionalService.setName(updateAdditionalServiceRequest.getName());
+        additionalService.setName(updateAdditionalServiceRequest.getName().toUpperCase(Locale.ROOT));
         additionalService.setDailyPrice(updateAdditionalServiceRequest.getDailyPrice());
     }
 
@@ -97,7 +104,7 @@ public class AdditionalServiceManager implements AdditionalServiceService {
     }
 
     private void checkIfNameExists(String name) {
-        if (this.additionalServiceDao.existsByName(name)) {
+        if (this.additionalServiceDao.existsByName(name.toUpperCase(Locale.ROOT))) {
             throw new BusinessException(BusinessMessages.ADDITIONAL_SERVICE_ALREADY_EXISTS);
         }
     }

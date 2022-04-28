@@ -149,6 +149,11 @@ public class CarManager implements CarService {
     }
 
     @Override
+    public Car findById(int id) {
+        return this.carDao.getById(id);
+    }
+
+    @Override
     public DataResult<List<CarListDto>> findCarsByModelYear(int modelYear) {
         checkIfModelYearValid(modelYear);
 

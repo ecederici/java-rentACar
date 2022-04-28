@@ -6,6 +6,7 @@ import com.turkcell.rentACar2.business.requests.CarRequest.CreateCarRequest;
 import com.turkcell.rentACar2.business.requests.CarRequest.UpdateCarRequest;
 import com.turkcell.rentACar2.core.utilities.results.DataResult;
 import com.turkcell.rentACar2.core.utilities.results.Result;
+import com.turkcell.rentACar2.entities.concretes.Car;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
@@ -34,4 +35,6 @@ public interface CarService {
     void populateCurrentDistance(int id, int currentDistance);
 
     void checkIfIdExists(int id);
+
+    Car findById(int id);
 }

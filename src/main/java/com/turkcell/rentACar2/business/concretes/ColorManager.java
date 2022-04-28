@@ -18,6 +18,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,6 +43,7 @@ public class ColorManager implements ColorService {
 
        checkIfColorNameExist(color.getName());
 
+       color.setName(createColorRequest.getName().toUpperCase(Locale.ROOT));
        this.colorDao.save(color);
 
        return new SuccessResult(BusinessMessages.DATA_ADDED);
@@ -65,7 +67,7 @@ public class ColorManager implements ColorService {
 
         checkIfColorNameExist(updateColorRequest.getName());
 
-        color.setName(updateColorRequest.getName());
+        color.setName(updateColorRequest.getName().toUpperCase(Locale.ROOT));
 
         this.colorDao.save(color);
 
@@ -88,7 +90,7 @@ public class ColorManager implements ColorService {
     }
 
     private void checkIfColorNameExist(String name) {
-        if (this.colorDao.existsByName(name)) {
+        if (this.colorDao.existsByName(name.toUpperCase(Locale.ROOT))) {
             throw new BusinessException(name + BusinessMessages.COLOR_ALREADY_EXISTS);
         }
     }

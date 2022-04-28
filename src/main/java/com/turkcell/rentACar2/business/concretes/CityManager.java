@@ -17,6 +17,7 @@ import com.turkcell.rentACar2.entities.concretes.City;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
@@ -57,6 +58,7 @@ public class CityManager implements CityService {
 
         this.checkIfCityNameExists(city.getName());
 
+        city.setName(createCityRequest.getName().toUpperCase(Locale.ROOT));
         this.cityDao.save(city);
 
         return new SuccessResult(BusinessMessages.DATA_ADDED);
@@ -91,12 +93,17 @@ public class CityManager implements CityService {
         }
     }
 
+    @Override
+    public City findById(int id) {
+        return this.cityDao.getById(id);
+    }
+
     public void populateCityName(City city, UpdateCityRequest updateCityRequest) {
-        city.setName(updateCityRequest.getName());
+        city.setName(updateCityRequest.getName().toUpperCase(Locale.ROOT));
     }
 
     private void checkIfCityNameExists(String name) {
-        if (this.cityDao.existsByName(name)) {
+        if (this.cityDao.existsByName(name.toUpperCase(Locale.ROOT))) {
             throw new BusinessException(BusinessMessages.CITY_ALREADY_EXISTS + name);
         }
     }

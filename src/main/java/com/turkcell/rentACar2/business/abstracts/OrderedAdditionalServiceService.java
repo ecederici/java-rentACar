@@ -11,10 +11,16 @@ import java.util.List;
 public interface OrderedAdditionalServiceService {
 
     DataResult<List<OrderedAdditionalServiceListDto>> getAll();
+
     DataResult<OrderedAdditionalServiceGetDto> getById(int id);
-    void add(List<CreateOrderedAdditionalServiceRequest> createOrderedAdditionalServiceRequests,int rentalId);
+
+    void add(List<CreateOrderedAdditionalServiceRequest> createOrderedAdditionalServiceRequests, int rentalId);
+
     Result delete(int id);
+
     DataResult<List<OrderedAdditionalServiceListDto>> getByRentalCarId(int rentalCarId);
+
     DataResult<List<OrderedAdditionalServiceListDto>> getByAdditionalServiceId(int additionalServiceId);
+
     void checkIfIdExists(int id);
 }

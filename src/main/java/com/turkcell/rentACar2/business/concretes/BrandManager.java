@@ -18,6 +18,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,6 +44,7 @@ public class BrandManager implements BrandService {
 
         checkIfBrandNameExist(brand.getName());
 
+        brand.setName(createBrandRequest.getName().toUpperCase(Locale.ROOT));
         this.brandDao.save(brand);
 
         return new SuccessResult(BusinessMessages.DATA_ADDED);
@@ -66,7 +68,7 @@ public class BrandManager implements BrandService {
 
        checkIfBrandNameExist(updateBrandRequest.getName());
 
-       brand.setName(updateBrandRequest.getName());
+       brand.setName(updateBrandRequest.getName().toUpperCase(Locale.ROOT));
        this.brandDao.save(brand);
 
        return new SuccessResult(BusinessMessages.DATA_UPDATED + id);
@@ -88,7 +90,7 @@ public class BrandManager implements BrandService {
     }
 
     private void checkIfBrandNameExist(String name) {
-        if (this.brandDao.existsByName(name)) {
+        if (this.brandDao.existsByName(name.toUpperCase(Locale.ROOT))) {
             throw new BusinessException(name + BusinessMessages.BRAND_ALREADY_EXISTS);
         }
     }

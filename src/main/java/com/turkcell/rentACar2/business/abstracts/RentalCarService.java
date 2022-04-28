@@ -1,8 +1,9 @@
 package com.turkcell.rentACar2.business.abstracts;
 
+import com.turkcell.rentACar2.api.models.RentalCarModel;
+import com.turkcell.rentACar2.api.models.ReturnedRentalCarModel;
 import com.turkcell.rentACar2.business.dtos.RentalCarDto.RentalCarGetDto;
 import com.turkcell.rentACar2.business.dtos.RentalCarDto.RentalCarListDto;
-import com.turkcell.rentACar2.business.models.RentalCarModel;
 import com.turkcell.rentACar2.business.requests.RentalCarRequest.UpdateRentalCarRequest;
 import com.turkcell.rentACar2.core.utilities.results.DataResult;
 import com.turkcell.rentACar2.core.utilities.results.Result;
@@ -15,9 +16,11 @@ public interface RentalCarService {
 
     DataResult<RentalCarGetDto> getById(int id);
 
-    Result add(RentalCarModel rentalCarModel);
+    DataResult<RentalCar> add(RentalCarModel rentalCarModel);
 
     Result update(int id, UpdateRentalCarRequest updateRentalCarRequest);
+
+    Result updateForReturnFromRental(int id, ReturnedRentalCarModel returnedRentalCarModel);
 
     Result delete(int id);
 
@@ -26,4 +29,10 @@ public interface RentalCarService {
     RentalCar findById(int id);
 
     void checkIfCarRented(int carId);
+
+    void checkIfIdExists(int id);
+
+    long calculateRentalDayDiff(RentalCar rentalCar);
+
+    long calculateDelayedRentalDayDiff(int rentalCarId);
 }

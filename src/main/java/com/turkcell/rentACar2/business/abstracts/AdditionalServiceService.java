@@ -6,6 +6,7 @@ import com.turkcell.rentACar2.business.requests.AdditionalServiceRequest.CreateA
 import com.turkcell.rentACar2.business.requests.AdditionalServiceRequest.UpdateAdditionalServiceRequest;
 import com.turkcell.rentACar2.core.utilities.results.DataResult;
 import com.turkcell.rentACar2.core.utilities.results.Result;
+import com.turkcell.rentACar2.entities.concretes.AdditionalService;
 
 import java.util.List;
 
@@ -20,4 +21,6 @@ public interface AdditionalServiceService {
     Result update(int id, UpdateAdditionalServiceRequest updateAdditionalServiceRequest);
 
     Result delete(int id);
+
+    AdditionalService findById(int id);
 }

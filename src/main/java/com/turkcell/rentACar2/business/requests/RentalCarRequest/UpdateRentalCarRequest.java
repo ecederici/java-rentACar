@@ -23,14 +23,8 @@ public class UpdateRentalCarRequest {
     private int carId;
 
     @NotNull
-    private int customerId;
-
-    @NotNull
     private int fromCityId;
 
     @NotNull
     private int toCityId;
-
-    @Min(1)
-    private int lastDistance;
 }

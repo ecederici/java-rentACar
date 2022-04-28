@@ -13,10 +13,11 @@ public class RentalCarGetDto {
 
     private LocalDate rentDate;
     private LocalDate returnDate;
-    private int carId;
+    private LocalDate executionDate;
     private int customerId;
-    private String fromCity;
-    private String toCity;
+    private int carId;
+    private String fromCityName;
+    private String toCityName;
     private int currentDistance;
     private int lastDistance;
 }
