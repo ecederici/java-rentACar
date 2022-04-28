@@ -1,5 +1,6 @@
 package com.turkcell.rentACar2.business.concretes;
 
+import com.turkcell.rentACar2.business.abstracts.CustomerService;
 import com.turkcell.rentACar2.business.abstracts.IndividualCustomerService;
 import com.turkcell.rentACar2.business.constants.messages.BusinessMessages;
 import com.turkcell.rentACar2.business.dtos.IndividualCustomerDto.IndividualCustomerGetDto;
@@ -27,6 +28,7 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 
     private IndividualCustomerDao individualCustomerDao;
     private ModelMapperService modelMapperService;
+    private CustomerService customerService;
 
     @Override
     public DataResult<List<IndividualCustomerListDto>> getAll() {
@@ -51,6 +53,9 @@ public class IndividualCustomerManager implements IndividualCustomerService {
     @Override
     public Result add(CreateIndividualCustomerRequest createIndividualCustomerRequest) {
         IndividualCustomer individualCustomer = this.modelMapperService.forRequest().map(createIndividualCustomerRequest, IndividualCustomer.class);
+
+        this.customerService.checkIfEmailExists(createIndividualCustomerRequest.getEmail());
+
         individualCustomer.setRegistrationDate(LocalDateTime.now());
         this.individualCustomerDao.save(individualCustomer);
 
@@ -63,10 +68,7 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 
         IndividualCustomer individualCustomer = this.individualCustomerDao.getById(id);
 
-        individualCustomer.setFirstName(updateIndividualCustomerRequest.getFirstName());
-        individualCustomer.setLastName(updateIndividualCustomerRequest.getLastName());
-        individualCustomer.setNationalIdentity(updateIndividualCustomerRequest.getNationalIdentity());
-
+        populateIndividualCustomerFields(updateIndividualCustomerRequest,individualCustomer);
         this.individualCustomerDao.save(individualCustomer);
 
         return new SuccessResult(BusinessMessages.DATA_UPDATED + id);
@@ -85,5 +87,13 @@ public class IndividualCustomerManager implements IndividualCustomerService {
         if (!this.individualCustomerDao.existsById(id)) {
             throw new BusinessException(BusinessMessages.CUSTOMER_DOES_NOT_EXISTS);
         }
+    }
+
+    private void populateIndividualCustomerFields(UpdateIndividualCustomerRequest updateIndividualCustomerRequest, IndividualCustomer individualCustomer) {
+        individualCustomer.setFirstName(updateIndividualCustomerRequest.getFirstName());
+        individualCustomer.setLastName(updateIndividualCustomerRequest.getLastName());
+        individualCustomer.setNationalIdentity(updateIndividualCustomerRequest.getNationalIdentity());
+        individualCustomer.setPassword(updateIndividualCustomerRequest.getPassword());
+        individualCustomer.setEmail(updateIndividualCustomerRequest.getEmail());
     }
 }

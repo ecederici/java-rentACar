@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
@@ -57,6 +58,18 @@ public class CustomerManager implements CustomerService {
     public void checkIfCustomerIdExists(int id) {
         if (!this.customerDao.existsById(id)) {
             throw new BusinessException(BusinessMessages.CUSTOMER_DOES_NOT_EXISTS);
+        }
+    }
+
+    @Override
+    public Customer findById(int id) {
+        return this.customerDao.getById(id);
+    }
+
+    @Override
+    public void checkIfEmailExists(String email) {
+        if (this.customerDao.existsByEmail(email.toLowerCase(Locale.ROOT))) {
+            throw new BusinessException(BusinessMessages.EMAIL_ALREADY_EXISTS);
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.turkcell.rentACar2.business.concretes;
 
 import com.turkcell.rentACar2.business.abstracts.CorporateCustomerService;
+import com.turkcell.rentACar2.business.abstracts.CustomerService;
 import com.turkcell.rentACar2.business.constants.messages.BusinessMessages;
 import com.turkcell.rentACar2.business.dtos.CorporateCustomerDto.CorporateCustomerGetDto;
 import com.turkcell.rentACar2.business.dtos.CorporateCustomerDto.CorporateCustomerListDto;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +29,7 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 
     private CorporateCustomerDao corporateCustomerDao;
     private ModelMapperService modelMapperService;
+    private CustomerService customerService;
 
     @Override
     public DataResult<List<CorporateCustomerListDto>> getAll() {
@@ -52,7 +55,12 @@ public class CorporateCustomerManager implements CorporateCustomerService {
     @Override
     public Result add(CreateCorporateCustomerRequest createCorporateCustomerRequest) {
         CorporateCustomer corporateCustomer = this.modelMapperService.forRequest().map(createCorporateCustomerRequest, CorporateCustomer.class);
+
+        checkIfCorporateCustomerNameExists(corporateCustomer.getCompanyName());
+        this.customerService.checkIfEmailExists(createCorporateCustomerRequest.getEmail());
+
         corporateCustomer.setRegistrationDate(LocalDateTime.now());
+        corporateCustomer.setCompanyName(createCorporateCustomerRequest.getCompanyName().toUpperCase(Locale.ROOT));
 
         this.corporateCustomerDao.save(corporateCustomer);
 
@@ -88,7 +96,15 @@ public class CorporateCustomerManager implements CorporateCustomerService {
     }
 
     private void populateCorporateCustomerFields(UpdateCorporateCustomerRequest updateCorporateCustomerRequest, CorporateCustomer corporateCustomer) {
-        corporateCustomer.setCompanyName(updateCorporateCustomerRequest.getCompanyName());
+        corporateCustomer.setCompanyName(updateCorporateCustomerRequest.getCompanyName().toUpperCase(Locale.ROOT));
         corporateCustomer.setTaxNumber(updateCorporateCustomerRequest.getTaxNumber());
+        corporateCustomer.setEmail(updateCorporateCustomerRequest.getEmail());
+        corporateCustomer.setPassword(updateCorporateCustomerRequest.getPassword());
+    }
+
+    private void checkIfCorporateCustomerNameExists(String name) {
+        if (this.corporateCustomerDao.existsByCompanyName(name.toUpperCase(Locale.ROOT))) {
+           throw new BusinessException(BusinessMessages.CORPORATE_CUSTOMER_ALREADY_EXISTS);
+        }
     }
 }
